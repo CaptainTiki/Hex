@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bha6t0pivwyp"]
+
+[ext_resource type="Script" uid="uid://bve16yj45pph1" path="res://system/ui_manager/ui_manager.gd" id="1_hnxrh"]
+
+[node name="UIManager" type="CanvasLayer" unique_id=1302353851]
+script = ExtResource("1_hnxrh")
+
+[node name="MenuRoot" type="Control" parent="." unique_id=198076814]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Hud" type="Control" parent="." unique_id=1823613216]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

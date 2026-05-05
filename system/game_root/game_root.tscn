@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://drtjngalv3wqm"]
+
+[ext_resource type="Script" uid="uid://bjc5wt5pw57ur" path="res://system/game_root/game_root.gd" id="1_tcsw0"]
+[ext_resource type="PackedScene" path="res://game/rooms/test_room.tscn" id="2_d781n"]
+
+[node name="GameRoot" type="Node3D" unique_id=2054205087]
+script = ExtResource("1_tcsw0")
+
+[node name="TestRoom" parent="." unique_id=621830841 instance=ExtResource("2_d781n")]

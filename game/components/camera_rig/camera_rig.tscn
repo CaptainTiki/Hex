@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/components/camera_rig/camera_rig.gd" id="1_b2kcs"]
+
+[node name="CameraRig" type="Node3D"]
+script = ExtResource("1_b2kcs")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_name_in_owner=true]
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_name_in_owner=true]
+current = true

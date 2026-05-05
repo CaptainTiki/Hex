@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://entities/player/player_controller.gd" id="1_m1ofp"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oq24s"]
+radius = 0.42
+height = 1.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bj84x"]
+albedo_color = Color(0.14, 0.78, 1, 1)
+emission_enabled = true
+emission = Color(0.11, 0.8, 1, 1)
+emission_energy_multiplier = 1.8
+roughness = 0.38
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ye6pg"]
+material = SubResource("StandardMaterial3D_bj84x")
+radius = 0.42
+height = 1.35
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_m1ofp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_oq24s")
+
+[node name="Visual" type="Node3D" parent="." unique_name_in_owner=true]
+
+[node name="Body" type="MeshInstance3D" parent="Visual"]
+mesh = SubResource("CapsuleMesh_ye6pg")
