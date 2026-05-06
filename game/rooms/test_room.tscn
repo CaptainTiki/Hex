@@ -10,35 +10,100 @@
 [ext_resource type="PackedScene" path="res://game/room_dressing/edge_glow_strip/edge_glow_strip.tscn" id="10_a54jv"]
 [ext_resource type="PackedScene" path="res://game/room_dressing/data_grass_clump/data_grass_clump.tscn" id="11_f8x1h"]
 [ext_resource type="PackedScene" path="res://game/room_dressing/small_crystal_cluster/small_crystal_cluster.tscn" id="12_ve7ek"]
-[ext_resource type="Material" path="res://game/materials/dark_background.tres" id="13_bg0sj"]
-[ext_resource type="Material" path="res://game/materials/dark_block.tres" id="14_7y0im"]
 
 [sub_resource type="Environment" id="Environment_room"]
 background_mode = 1
 background_color = Color(0.002, 0.004, 0.01, 1)
 ambient_light_source = 1
-ambient_light_color = Color(0.04, 0.08, 0.12, 1)
-ambient_light_energy = 0.18
+ambient_light_color = Color(0.105, 0.125, 0.20, 1)
+ambient_light_energy = 0.3
 glow_enabled = true
 glow_intensity = 0.55
 glow_strength = 0.85
 glow_bloom = 0.12
 adjustment_enabled = true
-adjustment_brightness = 0.92
-adjustment_contrast = 1.12
-adjustment_saturation = 1.05
+adjustment_brightness = 1.08
+adjustment_contrast = 1.02
+adjustment_saturation = 1.08
+
+[sub_resource type="Shader" id="Shader_far_background_gradient"]
+code = "shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform vec4 top_color : source_color = vec4(0.115, 0.120, 0.230, 1.0);
+uniform vec4 center_color : source_color = vec4(0.246, 0.245, 0.414, 1.0);
+uniform vec4 bottom_color : source_color = vec4(0.095, 0.090, 0.190, 1.0);
+uniform float center_width = 0.9;
+
+void fragment() {
+	float vertical = UV.y;
+	float center_weight = smoothstep(0.0, center_width, vertical) * smoothstep(1.0, center_width, vertical);
+	vec4 edge_color = mix(bottom_color, top_color, vertical);
+	ALBEDO = mix(edge_color.rgb, center_color.rgb, center_weight);
+	EMISSION = ALBEDO * 0.55;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_far_background"]
+render_priority = -10
+shader = SubResource("Shader_far_background_gradient")
+shader_parameter/top_color = Color(0.115, 0.12, 0.23, 1)
+shader_parameter/center_color = Color(0.246, 0.245, 0.414, 1)
+shader_parameter/bottom_color = Color(0.095, 0.09, 0.19, 1)
+shader_parameter/center_width = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_mid_background"]
+shading_mode = 0
+albedo_color = Color(0.135, 0.125, 0.235, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_near_background"]
+shading_mode = 0
+albedo_color = Color(0.105, 0.175, 0.215, 1)
+emission_enabled = true
+emission = Color(0.02, 0.18, 0.24, 1)
+emission_energy_multiplier = 0.12
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_near_node"]
+shading_mode = 0
+albedo_color = Color(0.08, 0.22, 0.28, 1)
+emission_enabled = true
+emission = Color(0.0, 0.24, 0.34, 1)
+emission_energy_multiplier = 0.14
+roughness = 0.55
 
 [sub_resource type="BoxMesh" id="BoxMesh_background"]
-material = ExtResource("13_bg0sj")
+material = SubResource("ShaderMaterial_far_background")
 size = Vector3(92, 28, 0.12)
 
 [sub_resource type="BoxMesh" id="BoxMesh_far_silhouette"]
-material = ExtResource("13_bg0sj")
-size = Vector3(16, 5, 0.1)
+material = SubResource("StandardMaterial_mid_background")
+size = Vector3(18, 4.8, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_mid_silhouette"]
-material = ExtResource("14_7y0im")
-size = Vector3(10, 3, 0.1)
+material = SubResource("StandardMaterial_mid_background")
+size = Vector3(8, 3.2, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mid_pillar"]
+material = SubResource("StandardMaterial_mid_background")
+size = Vector3(2.2, 12, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mid_slab"]
+material = SubResource("StandardMaterial_mid_background")
+size = Vector3(13, 1.35, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_near_cable"]
+material = SubResource("StandardMaterial_near_background")
+size = Vector3(0.22, 9.5, 0.1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_near_crystal"]
+material = SubResource("StandardMaterial_near_background")
+size = Vector3(0.6, 2.6, 0.5)
+
+[sub_resource type="SphereMesh" id="SphereMesh_near_node"]
+material = SubResource("StandardMaterial_near_node")
+radius = 0.22
+height = 0.44
 
 [node name="TestRoom" type="Node3D" unique_id=622169430]
 
@@ -47,21 +112,71 @@ environment = SubResource("Environment_room")
 
 [node name="BackgroundLayer" type="Node3D" parent="." unique_id=1117397798]
 
-[node name="DeepBackground" type="MeshInstance3D" parent="BackgroundLayer" unique_id=1940048362]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 6.5, -1.35)
+[node name="FarBackground" type="Node3D" parent="BackgroundLayer"]
+
+[node name="DeepGradient" type="MeshInstance3D" parent="BackgroundLayer/FarBackground" unique_id=1940048362]
+transform = Transform3D(1, 0, 0, 0, 1.08, 0, 0, 0, 1, 12, 6.3, -1.55)
 mesh = SubResource("BoxMesh_background")
 
-[node name="FarBlockA" type="MeshInstance3D" parent="BackgroundLayer" unique_id=303146368]
-transform = Transform3D(1, 0, 0, 0.173648, 0.984808, 0, 0, 0, 1, -19, 4, -1.18)
+[node name="MidBackground" type="Node3D" parent="BackgroundLayer"]
+
+[node name="BrokenCliffLeft" type="MeshInstance3D" parent="BackgroundLayer/MidBackground" unique_id=303146368]
+transform = Transform3D(0.62, 0, 0, 0.121554, 0.689366, 0, 0, 0, 1, -22, 4.15, -1.4)
 mesh = SubResource("BoxMesh_far_silhouette")
 
-[node name="FarBlockB" type="MeshInstance3D" parent="BackgroundLayer" unique_id=980137805]
-transform = Transform3D(1.25, 0, 0, -0.0871557, 0.996195, 0, 0, 0, 1, 11, 8.8, -1.16)
+[node name="BrokenCliffLeftCap" type="MeshInstance3D" parent="BackgroundLayer/MidBackground"]
+transform = Transform3D(0.46, 0, 0, -0.239414, 0.657785, 0, 0, 0, 1, -27.5, 7.35, -1.39)
+mesh = SubResource("BoxMesh_mid_slab")
+
+[node name="HangingSlabHigh" type="MeshInstance3D" parent="BackgroundLayer/MidBackground" unique_id=980137805]
+transform = Transform3D(0.72, 0, 0, -0.061009, 0.697337, 0, 0, 0, 1, 10.5, 9.2, -1.39)
 mesh = SubResource("BoxMesh_far_silhouette")
 
-[node name="MidBlockA" type="MeshInstance3D" parent="BackgroundLayer" unique_id=351047068]
-transform = Transform3D(1, 0, 0, -0.130526, 0.991445, 0, 0, 0, 1, 29, 4.8, -1.08)
+[node name="FloatingSlabRight" type="MeshInstance3D" parent="BackgroundLayer/MidBackground" unique_id=351047068]
+transform = Transform3D(0.66, 0, 0, -0.0913682, 0.694012, 0, 0, 0, 1, 30, 5.3, -1.38)
 mesh = SubResource("BoxMesh_mid_silhouette")
+
+[node name="RootPillarA" type="MeshInstance3D" parent="BackgroundLayer/MidBackground"]
+transform = Transform3D(0.519615, 0.3, 0, -0.3, 0.519615, 0, 0, 0, 0.85, -7.5, 5.6, -1.38)
+mesh = SubResource("BoxMesh_mid_pillar")
+
+[node name="RootPillarB" type="MeshInstance3D" parent="BackgroundLayer/MidBackground"]
+transform = Transform3D(0.563816, -0.205211, 0, 0.205211, 0.563816, 0, 0, 0, 0.85, 41, 4.95, -1.38)
+mesh = SubResource("BoxMesh_mid_pillar")
+
+[node name="NearBackground" type="Node3D" parent="BackgroundLayer"]
+
+[node name="LeftCable" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.869333, 0.232937, 0, -0.232937, 0.869333, 0, 0, 0, 1, -16.6, 5.0, -1.16)
+mesh = SubResource("BoxMesh_near_cable")
+
+[node name="CenterCable" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.896576, -0.0784401, 0, 0.0784401, 0.896576, 0, 0, 0, 1, 14.8, 6.1, -1.15)
+mesh = SubResource("BoxMesh_near_cable")
+
+[node name="RightCable" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.815677, -0.380356, 0, 0.380356, 0.815677, 0, 0, 0, 1, 36.3, 4.5, -1.15)
+mesh = SubResource("BoxMesh_near_cable")
+
+[node name="LeftCyanNode" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.76, 0, 0, 0, 0.76, 0, 0, 0, 0.76, -16.0, 7.7, -1.12)
+mesh = SubResource("SphereMesh_near_node")
+
+[node name="CenterCyanNode" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.62, 0, 0, 0, 0.62, 0, 0, 0, 0.62, 15.2, 2.8, -1.12)
+mesh = SubResource("SphereMesh_near_node")
+
+[node name="RightCyanNode" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, 35.5, 7.5, -1.12)
+mesh = SubResource("SphereMesh_near_node")
+
+[node name="NearCrystalLeft" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.724109, 0.33756, 0, -0.33756, 0.724109, 0, 0, 0, 0.8, -25.2, 1.55, -1.12)
+mesh = SubResource("PrismMesh_near_crystal")
+
+[node name="NearCrystalRight" type="MeshInstance3D" parent="BackgroundLayer/NearBackground"]
+transform = Transform3D(0.655322, -0.458861, 0, 0.458861, 0.655322, 0, 0, 0, 0.8, 44.2, 1.35, -1.12)
+mesh = SubResource("PrismMesh_near_crystal")
 
 [node name="GameplayLayer" type="Node3D" parent="." unique_id=96642274]
 
