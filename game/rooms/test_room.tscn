@@ -5,118 +5,270 @@
 [ext_resource type="PackedScene" path="res://game/room_pieces/block_1x1/block_1x1.tscn" id="3_psx4v"]
 [ext_resource type="PackedScene" path="res://game/room_pieces/block_2x1/block_2x1.tscn" id="4_d6o4h"]
 [ext_resource type="PackedScene" path="res://game/room_pieces/platform_4x1/platform_4x1.tscn" id="5_gv3ee"]
-[ext_resource type="PackedScene" path="res://game/room_pieces/slope_1x1_left/slope_1x1_left.tscn" id="6_fymcq"]
-[ext_resource type="PackedScene" path="res://game/room_pieces/slope_1x1_right/slope_1x1_right.tscn" id="7_xbq0q"]
+[ext_resource type="PackedScene" path="res://game/room_pieces/slope_2x1_left/slope_2x1_left.tscn" id="8_rfl33"]
+[ext_resource type="PackedScene" path="res://game/room_pieces/slope_2x1_right/slope_2x1_right.tscn" id="9_73agm"]
+[ext_resource type="PackedScene" path="res://game/room_dressing/edge_glow_strip/edge_glow_strip.tscn" id="10_a54jv"]
+[ext_resource type="PackedScene" path="res://game/room_dressing/data_grass_clump/data_grass_clump.tscn" id="11_f8x1h"]
+[ext_resource type="PackedScene" path="res://game/room_dressing/small_crystal_cluster/small_crystal_cluster.tscn" id="12_ve7ek"]
+[ext_resource type="Material" path="res://game/materials/dark_background.tres" id="13_bg0sj"]
+[ext_resource type="Material" path="res://game/materials/dark_block.tres" id="14_7y0im"]
+
+[sub_resource type="Environment" id="Environment_room"]
+background_mode = 1
+background_color = Color(0.002, 0.004, 0.01, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.04, 0.08, 0.12, 1)
+ambient_light_energy = 0.18
+glow_enabled = true
+glow_intensity = 0.55
+glow_strength = 0.85
+glow_bloom = 0.12
+adjustment_enabled = true
+adjustment_brightness = 0.92
+adjustment_contrast = 1.12
+adjustment_saturation = 1.05
+
+[sub_resource type="BoxMesh" id="BoxMesh_background"]
+material = ExtResource("13_bg0sj")
+size = Vector3(92, 28, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_far_silhouette"]
+material = ExtResource("13_bg0sj")
+size = Vector3(16, 5, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mid_silhouette"]
+material = ExtResource("14_7y0im")
+size = Vector3(10, 3, 0.1)
 
 [node name="TestRoom" type="Node3D" unique_id=622169430]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=680511476]
+environment = SubResource("Environment_room")
 
-[node name="Player" parent="." unique_id=360833181 instance=ExtResource("1_bltpo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.4, 0)
+[node name="BackgroundLayer" type="Node3D" parent="." unique_id=1117397798]
 
-[node name="CameraRig" parent="Player" unique_id=1027148605 instance=ExtResource("2_xf6kw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1.4, 0)
-target_path = NodePath("..")
-camera_height = 1.5
-camera_pitch_degrees = -5.0
+[node name="DeepBackground" type="MeshInstance3D" parent="BackgroundLayer" unique_id=1940048362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 6.5, -1.35)
+mesh = SubResource("BoxMesh_background")
 
-[node name="Geometry" type="Node3D" parent="." unique_id=96642274]
+[node name="FarBlockA" type="MeshInstance3D" parent="BackgroundLayer" unique_id=303146368]
+transform = Transform3D(1, 0, 0, 0.173648, 0.984808, 0, 0, 0, 1, -19, 4, -1.18)
+mesh = SubResource("BoxMesh_far_silhouette")
 
-[node name="FloorA" parent="Geometry" unique_id=1278304025 instance=ExtResource("5_gv3ee")]
+[node name="FarBlockB" type="MeshInstance3D" parent="BackgroundLayer" unique_id=980137805]
+transform = Transform3D(1.25, 0, 0, -0.0871557, 0.996195, 0, 0, 0, 1, 11, 8.8, -1.16)
+mesh = SubResource("BoxMesh_far_silhouette")
+
+[node name="MidBlockA" type="MeshInstance3D" parent="BackgroundLayer" unique_id=351047068]
+transform = Transform3D(1, 0, 0, -0.130526, 0.991445, 0, 0, 0, 1, 29, 4.8, -1.08)
+mesh = SubResource("BoxMesh_mid_silhouette")
+
+[node name="GameplayLayer" type="Node3D" parent="." unique_id=96642274]
+
+[node name="LowerFloor01" parent="GameplayLayer" unique_id=1171327374 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, 0)
+
+[node name="LowerFloor02" parent="GameplayLayer" unique_id=1996222967 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0, 0)
+
+[node name="LowerFloor03" parent="GameplayLayer" unique_id=1457008984 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="LowerFloor04" parent="GameplayLayer" unique_id=1005398430 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="LowerFloor05" parent="GameplayLayer" unique_id=1046728251 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
+
+[node name="LowerFloor06" parent="GameplayLayer" unique_id=34772393 instance=ExtResource("5_gv3ee")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="FloorB" parent="Geometry" unique_id=541017639 instance=ExtResource("5_gv3ee")]
+[node name="LowerFloor07" parent="GameplayLayer" unique_id=2080973440 instance=ExtResource("5_gv3ee")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="FloorC" parent="Geometry" unique_id=686595081 instance=ExtResource("5_gv3ee")]
+[node name="LowerFloor08" parent="GameplayLayer" unique_id=639749021 instance=ExtResource("5_gv3ee")]
 
-[node name="FloorD" parent="Geometry" unique_id=1495219077 instance=ExtResource("5_gv3ee")]
+[node name="LowerFloor09" parent="GameplayLayer" unique_id=1099357568 instance=ExtResource("5_gv3ee")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="FloorE" parent="Geometry" unique_id=336636155 instance=ExtResource("5_gv3ee")]
+[node name="LowerFloor10" parent="GameplayLayer" unique_id=1007116985 instance=ExtResource("5_gv3ee")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
 
-[node name="LeftWallBase" parent="Geometry" unique_id=2143957683 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 1, 0)
+[node name="LowerFloor11" parent="GameplayLayer" unique_id=1273609515 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
 
-[node name="LeftWallMid" parent="Geometry" unique_id=375464039 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 2, 0)
+[node name="LowerFloor12" parent="GameplayLayer" unique_id=1803640076 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
 
-[node name="LeftWallTop" parent="Geometry" unique_id=2076737351 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 3, 0)
+[node name="CombatFloor01" parent="GameplayLayer" unique_id=1106353023 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
 
-[node name="RightWallBase" parent="Geometry" unique_id=472524051 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 0)
+[node name="CombatFloor02" parent="GameplayLayer" unique_id=653343805 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
 
-[node name="LeftStep" parent="Geometry" unique_id=741007028 instance=ExtResource("4_d6o4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1, 0)
+[node name="CombatFloor03" parent="GameplayLayer" unique_id=559700779 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0, 0)
 
-[node name="LeftRampUp" parent="Geometry" unique_id=1096785663 instance=ExtResource("7_xbq0q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1, 0)
+[node name="CombatFloor04" parent="GameplayLayer" unique_id=142923933 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, 0)
 
-[node name="CenterPlatform" parent="Geometry" unique_id=969328035 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+[node name="CombatFloor05" parent="GameplayLayer" unique_id=90858716 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0, 0)
 
-[node name="RightRampDown" parent="Geometry" unique_id=1027583322 instance=ExtResource("6_fymcq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0)
+[node name="LowerFloor18" parent="GameplayLayer" unique_id=847921202 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0, 0)
 
-[node name="RightStep" parent="Geometry" unique_id=1826575602 instance=ExtResource("4_d6o4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 1, 0)
+[node name="LowerFloor19" parent="GameplayLayer" unique_id=1641038225 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0, 0)
 
-[node name="HighLedge" parent="Geometry" unique_id=616173725 instance=ExtResource("4_d6o4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3.2, 0)
+[node name="LowerFloor20" parent="GameplayLayer" unique_id=1244077417 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48, 0, 0)
 
-[node name="FloorA2" parent="Geometry" unique_id=296836603 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0)
+[node name="LeftWall01" parent="GameplayLayer" unique_id=231792894 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 1, 0)
 
-[node name="FloorB2" parent="Geometry" unique_id=513669891 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 0)
+[node name="LeftWall02" parent="GameplayLayer" unique_id=129981413 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 2, 0)
 
-[node name="FloorC2" parent="Geometry" unique_id=1882977626 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 0)
+[node name="LeftWall03" parent="GameplayLayer" unique_id=2010350095 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 3, 0)
 
-[node name="FloorD2" parent="Geometry" unique_id=806626451 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+[node name="LeftWall04" parent="GameplayLayer" unique_id=556196556 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 4, 0)
 
-[node name="FloorE2" parent="Geometry" unique_id=1263906641 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 0, 0)
+[node name="LeftWall05" parent="GameplayLayer" unique_id=1395265926 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.5, 5, 0)
 
-[node name="RightWallBase2" parent="Geometry" unique_id=1459762469 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.5, 1, 0)
+[node name="RightWall01" parent="GameplayLayer" unique_id=341042739 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 1, 0)
 
-[node name="RightWallMid2" parent="Geometry" unique_id=242752803 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.5, 2, 0)
+[node name="RightWall02" parent="GameplayLayer" unique_id=854722409 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 2, 0)
 
-[node name="RightWallTop2" parent="Geometry" unique_id=904390223 instance=ExtResource("3_psx4v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.5, 3, 0)
+[node name="RightWall03" parent="GameplayLayer" unique_id=603433079 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 3, 0)
 
-[node name="LeftStep2" parent="Geometry" unique_id=1137753382 instance=ExtResource("4_d6o4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.5, 1, 0)
+[node name="RightWall04" parent="GameplayLayer" unique_id=213701090 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 4, 0)
 
-[node name="LeftRampUp2" parent="Geometry" unique_id=1119761865 instance=ExtResource("7_xbq0q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1, 0)
+[node name="RightWall05" parent="GameplayLayer" unique_id=308419839 instance=ExtResource("3_psx4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.5, 5, 0)
 
-[node name="CenterPlatform2" parent="Geometry" unique_id=603442705 instance=ExtResource("5_gv3ee")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2, 0)
+[node name="LowerToUpperRampA" parent="GameplayLayer" unique_id=844837758 instance=ExtResource("9_73agm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 1, 0)
 
-[node name="RightRampDown2" parent="Geometry" unique_id=1848406545 instance=ExtResource("6_fymcq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 1, 0)
+[node name="UpperStepA" parent="GameplayLayer" unique_id=819798867 instance=ExtResource("4_d6o4h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1.4, 0)
 
-[node name="RightStep2" parent="Geometry" unique_id=803577885 instance=ExtResource("4_d6o4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.5, 1, 0)
+[node name="UpperRouteA" parent="GameplayLayer" unique_id=388633158 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2.4, 0)
 
-[node name="HighLedge2" parent="Geometry" unique_id=1685078383 instance=ExtResource("4_d6o4h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3.2, 0)
+[node name="LowerToUpperRampB" parent="GameplayLayer" unique_id=329430546 instance=ExtResource("9_73agm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3.4, 0)
+
+[node name="UpperRouteB" parent="GameplayLayer" unique_id=1269511866 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4.4, 0)
+
+[node name="UpperRouteC" parent="GameplayLayer" unique_id=1466819038 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 5.6, 0)
+
+[node name="UpperRouteD" parent="GameplayLayer" unique_id=1399350720 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 5.6, 0)
+
+[node name="UpperRouteE" parent="GameplayLayer" unique_id=730011994 instance=ExtResource("4_d6o4h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 5.1, 0)
+
+[node name="DropRampToCombat" parent="GameplayLayer" unique_id=209625971 instance=ExtResource("8_rfl33")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.5, 0)
+
+[node name="RaisedCombatPlatform" parent="GameplayLayer" unique_id=1669795428 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 3.2, 0)
+
+[node name="HighLeftLedge" parent="GameplayLayer" unique_id=401000916 instance=ExtResource("4_d6o4h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 7.4, 0)
+
+[node name="HighMidLedge" parent="GameplayLayer" unique_id=22363920 instance=ExtResource("5_gv3ee")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 8.2, 0)
+
+[node name="HighRightLedge" parent="GameplayLayer" unique_id=185793384 instance=ExtResource("4_d6o4h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, 7.4, 0)
+
+[node name="DressingLayer" type="Node3D" parent="." unique_id=1338878069]
+
+[node name="LowerTrim01" parent="DressingLayer" unique_id=304199666 instance=ExtResource("10_a54jv")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.55, -1.05)
+
+[node name="LowerTrim02" parent="DressingLayer" unique_id=1702792385 instance=ExtResource("10_a54jv")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -1.05)
+
+[node name="CombatTrim" parent="DressingLayer" unique_id=1631034133 instance=ExtResource("10_a54jv")]
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 1, 28, 0.55, -1.05)
+
+[node name="ExitTrim" parent="DressingLayer" unique_id=172624237 instance=ExtResource("10_a54jv")]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 1, 44, 0.55, -1.05)
+
+[node name="UpperTrimA" parent="DressingLayer" unique_id=345063556 instance=ExtResource("10_a54jv")]
+transform = Transform3D(2.5, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 6.15, -1.05)
+
+[node name="RaisedCombatTrim" parent="DressingLayer" unique_id=790516712 instance=ExtResource("10_a54jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 3.75, -1.05)
+
+[node name="HighTrim" parent="DressingLayer" unique_id=1439424231 instance=ExtResource("10_a54jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 8.75, -1.05)
+
+[node name="GrassA" parent="DressingLayer" unique_id=716952294 instance=ExtResource("11_f8x1h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.6, 0.55, 0)
+
+[node name="GrassB" parent="DressingLayer" unique_id=2033325020 instance=ExtResource("11_f8x1h")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 11.7, 6.15, 0)
+
+[node name="GrassC" parent="DressingLayer" unique_id=670018380 instance=ExtResource("11_f8x1h")]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 36.5, 0.55, 0)
+
+[node name="CrystalA" parent="DressingLayer" unique_id=769312544 instance=ExtResource("12_ve7ek")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.5, 0.55, 0)
+
+[node name="CrystalB" parent="DressingLayer" unique_id=863522640 instance=ExtResource("12_ve7ek")]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 29.8, 3.75, 0)
+
+[node name="CrystalC" parent="DressingLayer" unique_id=2106462251 instance=ExtResource("12_ve7ek")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 39.5, 7.95, 0)
+
+[node name="AtmosphereLayer" type="Node3D" parent="." unique_id=1254062898]
+
+[node name="HighAtmosphereLine" parent="AtmosphereLayer" unique_id=136814068 instance=ExtResource("10_a54jv")]
+transform = Transform3D(8, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 9, 11.6, -1.12)
+
+[node name="CombatAtmosphereLine" parent="AtmosphereLayer" unique_id=2117114147 instance=ExtResource("10_a54jv")]
+transform = Transform3D(5, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 30, 5.7, -1.12)
 
 [node name="Lighting" type="Node3D" parent="." unique_id=597720486]
 
 [node name="KeyLight" type="DirectionalLight3D" parent="Lighting" unique_id=1788333930]
-transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 7, 8)
-light_energy = 1.4
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 10, 10)
+light_energy = 0.95
 
-[node name="PlayerGlow" type="OmniLight3D" parent="Lighting" unique_id=1016349362]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 3, 1.6)
-light_color = Color(0.2, 0.82, 1, 1)
-light_energy = 2.5
-omni_range = 8.0
+[node name="RoomGlowA" type="OmniLight3D" parent="Lighting" unique_id=1016349362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 4, 1.8)
+light_color = Color(0.11, 0.58, 1, 1)
+light_energy = 1.8
+omni_range = 13.0
+
+[node name="RoomGlowB" type="OmniLight3D" parent="Lighting" unique_id=1520720312]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 5, 1.8)
+light_color = Color(0.08, 0.7, 1, 1)
+light_energy = 2.1
+omni_range = 16.0
+
+[node name="Player" parent="." unique_id=360833181 instance=ExtResource("1_bltpo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 1.4, 0)
+
+[node name="CameraRig" parent="." unique_id=1027148605 instance=ExtResource("2_xf6kw")]
+target_path = NodePath("../Player")
+follow_speed = 6.5
+lag_amount = 0.08
+snap_distance = 18.0
+camera_distance = 24.0
+camera_height = 2.4
+camera_pitch_degrees = -4.0
+field_of_view = 55.0

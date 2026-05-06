@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Material" path="res://game/materials/cyan_trim.tres" id="1_a04m7"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_crystal_tall"]
+material = ExtResource("1_a04m7")
+size = Vector3(0.28, 0.9, 0.28)
+
+[sub_resource type="PrismMesh" id="PrismMesh_crystal_short"]
+material = ExtResource("1_a04m7")
+size = Vector3(0.22, 0.58, 0.22)
+
+[node name="SmallCrystalCluster" type="Node3D"]
+
+[node name="CrystalA" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, -0.18, 0.42, -0.9)
+mesh = SubResource("PrismMesh_crystal_tall")
+
+[node name="CrystalB" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.996195, -0.0871557, 0, 0.0871557, 0.996195, 0, 0, 0, 1, 0.08, 0.28, -0.92)
+mesh = SubResource("PrismMesh_crystal_short")
+
+[node name="CrystalC" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 0.27, 0.33, -0.88)
+mesh = SubResource("PrismMesh_crystal_short")
