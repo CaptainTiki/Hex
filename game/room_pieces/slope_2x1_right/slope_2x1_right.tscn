@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dark_slope"]
+albedo_color = Color(0.026, 0.032, 0.044, 1)
+roughness = 0.62
+
+[sub_resource type="PrismMesh" id="PrismMesh_slope"]
+material = SubResource("StandardMaterial3D_dark_slope")
+size = Vector3(2, 1, 2)
+left_to_right = 0.5
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_slope"]
+points = PackedVector3Array(-1, -0.5, -1, 1, -0.5, -1, 1, 0.5, -1, -1, -0.5, 1, 1, -0.5, 1, 1, 0.5, 1)
+
+[node name="Slope2x1Right" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 2
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("PrismMesh_slope")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_slope")

@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dmkw6s4747fv4"]
 
-[ext_resource type="Script" path="res://game/components/camera_rig/camera_rig.gd" id="1_b2kcs"]
+[ext_resource type="Script" uid="uid://c1arcf1w1ev8h" path="res://game/components/camera_rig/camera_rig.gd" id="1_b2kcs"]
 
-[node name="CameraRig" type="Node3D"]
+[node name="CameraRig" type="Node3D" unique_id=1567428324]
 script = ExtResource("1_b2kcs")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="." unique_name_in_owner=true]
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=348723289]
+unique_name_in_owner = true
 
-[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_name_in_owner=true]
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=33380760]
+unique_name_in_owner = true
 current = true
